@@ -12,3 +12,7 @@ dados/.copiado
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# pacote zip oficial e bases extraídas
+dados/*.zip
+dados/2025/

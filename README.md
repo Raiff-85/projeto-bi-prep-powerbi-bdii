@@ -3,8 +3,8 @@
 Data Warehouse + dashboard Power BI sobre o **Painel de Monitoramento da PrEP**
 (Ministério da Saúde — Departamento de DST, Aids e Hepatites Virais), dados até 31/12/2024.
 
-- **Usuários:** 236.053 registros · 234.967 usuários únicos
-- **Dispensações:** 1.138.106 eventos (02/01/2018 a 31/12/2024)
+- **Usuários:** 332.976 linhas (base 2025)
+- **Dispensações:** 1.672.709 eventos (02/01/2018 a 31/12/2025)
 - Fonte: <https://mediacenter.aids.gov.br/prep/Dados_PrEP_transparencia.zip>
 
 ## Estrutura
@@ -33,9 +33,11 @@ em modelo estrela. Ver [docs/ROTEIRO.md](docs/ROTEIRO.md#2-o-que-estamos-aprovei
 ## Status
 
 - [x] Estrutura do repositório
-- [ ] Confirmação do tema com a professora (ver Passo 0 do roteiro)
+- [x] Base oficial baixada (versão 2018–2025, `dados/2025/`)
+- [ ] Confirmar com a professora que ninguém mais pegou a base PrEP
+- [ ] Ler itens finais do PDF da especificação (depende de download autenticado)
 - [ ] Modelo dimensional validado
 - [ ] ETL (Power Query)
 - [ ] Modelo estrela + DAX
-- [ ] Dashboard (4 páginas)
+- [ ] Dashboard
 - [ ] Documentação e apresentação (07–11/12)
