@@ -1,0 +1,14 @@
+DADOS BRUTOS (não versionados no git — 306 MB)
+==============================================
+
+Arquivos (copiados de ..\..\Dados_PrEP_transparencia\):
+  - Banco_PrEP_usuarios.csv   (~64 MB · 236.053 linhas) — 1 linha por usuário
+  - Banco_PrEP_dispensas.csv  (~242 MB · 1.138.106 linhas) — 1 linha por dispensação
+  - Dicionário de Dados.pdf   — definição oficial de todas as variáveis (MS)
+
+Fonte oficial (download):
+  https://mediacenter.aids.gov.br/prep/Dados_PrEP_transparencia.zip
+  (Painel de monitoramento da PrEP — Ministério da Saúde, dados até 31/12/2024)
+
+Se os CSVs ainda não estiverem aqui, copie da pasta original:
+  robocopy "..\..\Dados_PrEP_transparencia" . Banco_PrEP_usuarios.csv Banco_PrEP_dispensas.csv

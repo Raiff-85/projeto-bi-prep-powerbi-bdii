@@ -1,0 +1,14 @@
+# Dados brutos (306 MB — fora do git; fontes:
+# dados/ ← copiados de ../Dados_PrEP_transparencia/
+dados/*.csv
+dados/.copiado
+
+# Power BI - arquivos temporários e cache
+*.TempSave
+*.pbix.lock
+~$*
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
