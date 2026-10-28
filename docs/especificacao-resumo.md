@@ -38,7 +38,9 @@ Título: **"Projeto de BI – Power BI" — Turma 2026.2 – BDII** (Profa. Rena
 
 ## Planilha de homologação (Fonte de dados - 2026.2)
 
-Linha do aluno (nº 3): **Emanoel Raiff Nóbrega Fernandes — 20221350010**
-URL registrada: `https://dados.gov.br/dados/conjuntos-dados/prevencao-de-mortalidade-por-acidentes-de-transporte-1996-a-2011`
-→ Tema homologado atual = **acidentes de transporte**. Ver Passo 0 do ROTEIRO.md para a
-proposta de troca para a base PrEP.
+É a planilha anexa ao mesmo post do Classroom, com uma linha por aluno para registro da
+base escolhida. Nela, a linha nº 3 (nome: Emanoel Raiff Nóbrega Fernandes, matrícula
+20221350010) registra a URL de "acidentes de transporte" — possivelmente preenchida na
+pressa do prazo e depois esquecida. Como a professora deixou a escolha livre, basta
+confirmar que ninguém mais pegou a base PrEP e, se essa linha for sua, trocar o link
+pelo do Painel PrEP (ver Passo 0 do ROTEIRO.md).
