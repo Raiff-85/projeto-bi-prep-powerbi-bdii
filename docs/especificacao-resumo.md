@@ -1,46 +1,50 @@
-# Especificação do projeto de BI — o que foi levantado (BDII 2026.2)
+# Especificação do projeto de BI — conteúdo REAL do PDF (verificado em 29/10/2026)
 
-**Post:** "Especificação do projeto de Business Intelligence" — Profª. Renata Viegas — 02/10
-**Anexos:** `Especificação Projeto BI - 2026.2.pdf` + planilha `[Fonte de dados - 2026.2]`
+**Arquivo:** `Especificacao Projeto BDII.pdf` (2 páginas) — cópia em `docs/`.
+**Disciplina:** Banco de Dados II · Profª. Renata Viegas · UFPB · 2026.2
 
-## Texto do post (transcrição)
+> ⚠️ Este arquivo substitui as leituras anteriores feitas por imagem, que continham erros.
+> O que está abaixo foi extraído do texto do PDF, palavra por palavra.
 
-> A especificação do projeto de BI está disponível no link abaixo, juntamente com a
-> planilha de homologação de conceitos (que já conhecemos de sala de aula).
-> **O prazo para escolha do tema (base de dados) é 05/10.**
-> O projeto deverá ser apresentado no final do semestre letivo (**07/12 a 11/12**).
+## Avaliação
 
-## Pontos do PDF (lido na prévia do Drive)
+A disciplina tem dois componentes: o **projeto de BI** e os **seminários**. O projeto é
+entregue em **três etapas cumulativas** (a documentação e o .pbix vão sendo atualizados;
+mudanças de fonte/escopo/modelo devem ser registradas e justificadas; **atraso compromete a
+pontuação**; entregas documentais **por e-mail** à professora, identificando grupo e etapa).
 
-Título: **"Projeto de BI – Power BI" — Turma 2026.2 – BDII** (Profa. Renata)
+## Grupos
 
-1. Criação de um **Data Warehouse** a partir de uma base de dados operacional de
-   **fonte pública nacional**, preferencialmente vinculada a órgãos de fomento,
-   de pesquisa ou reguladores;
-2. Pesquisa de bases públicas para escolha do tema; tema **homologado pelo professor
-   até 05/10**; uma opção de fonte por aluno/grupo, **sem repetições** entre os grupos
-   (ordem de chegada);
-3. O DW deverá conter, no mínimo, **4 tabelas de dimensão e 2 tabelas de fatos**;
-4. Desenvolvimento no **Power BI Desktop** (com ETL, modelagem dimensional e
-   visualizações — conforme materiais da disciplina).
+**Até 3 integrantes** — todos devem conhecer fontes, transformações, modelo e análises.
 
-> ⚠️ **A conferir:** os itens finais do PDF (número mínimo de perguntas de negócio,
-> entregáveis de documentação e critérios de avaliação) não puderam ser lidos com
-> certeza na prévia. Abrir o PDF no Classroom e complementar este arquivo.
+## Cronograma REAL (do PDF)
 
-## Contexto da turma (materiais postados)
+| Etapa | Entrega | O que entregar |
+|---|---|---|
+| 1. Definição do projeto | **05/10/2026** *(passada)* | Grupo, proposta de análise, descrição completa das fontes e **dicionário de dados**, e as **bases originais** |
+| 2. ETL e modelo de dados | **19/10/2026** *(passada)* | Bases originais, **relatório de ETL** (operações + justificativas), **arquivo .pbix** com consultas organizadas, dados tratados e **modelo de dados**, e a representação do modelo explicada |
+| 3. Resultados e apresentação | **04/11/2026** *(faltam ~6 dias!)* | **Relatório final** completo, **.pbix atualizado com dashboard**, modelo e transformações; **apresentação de 5 minutos** mostrando como os resultados respondem às perguntas/objetivos |
 
-- `01 - BI e DW.pdf` — conceitos de BI e Data Warehouse
-- `02 - Modelagem Dimensional.pdf` — modelagem dimensional (Kimball)
-- Aulas práticas de Power BI (iniciação, ETL e junção de bases — prática 05:
-  `BaseFuncionarios Ativos/Desligados.xlsx`, extraída em `Trabalhos Power BI/`)
-- `VendasDevMedia.xlsx` + `DimCalendario.csv` — base exemplo de modelo com calendário
+Obs.: o post de 02/10 no Classroom fala ainda em apresentação no fim do semestre
+(07/12 a 11/12) — provavelmente a apresentação em sala; a **entrega da etapa 3 é 04/11**.
 
-## Planilha de homologação (Fonte de dados - 2026.2)
+## O que a Etapa 1 deve conter (checklist do PDF)
 
-É a planilha anexa ao mesmo post do Classroom, com uma linha por aluno para registro da
-base escolhida. Nela, a linha nº 3 (nome: Emanoel Raiff Nóbrega Fernandes, matrícula
-20221350010) registra a URL de "acidentes de transporte" — possivelmente preenchida na
-pressa do prazo e depois esquecida. Como a professora deixou a escolha livre, basta
-confirmar que ninguém mais pegou a base PrEP e, se essa linha for sua, trocar o link
-pelo do Painel PrEP (ver Passo 0 do ROTEIRO.md).
+- Título do projeto e nome completo dos integrantes
+- Tema e contexto (assunto + por que a análise é relevante)
+- Objetivo do projeto
+- Caracterização das fontes: quantidade, contribuição de cada uma; para cada fonte:
+  nome, origem, responsável, link; formato; conteúdo, período, abrangência, nº de
+  linhas e colunas; significado de cada registro; possibilidades de integração (campos
+  de ligação) — ou justificativa quando não houver
+- **Dicionário de dados** no formato exigido (tabela): *Nome da coluna · Descrição ·
+  Tipo de dado · Exemplo e unidade · Observações (ausências, códigos, categorias)*
+
+## Correções importantes sobre o que eu disse antes
+
+- ❌ "Mínimo de 4 dimensões e 2 fatos" — **não está no PDF**. Foi erro de leitura minha.
+  Nosso modelo com 2 fatos e 5 dimensões continua de pé como **decisão de projeto** (e é
+  bem avaliado em modelagem dimensional), mas não é exigência formal.
+- ❌ "Nº mínimo de perguntas de negócio" — o PDF só pede que o dashboard responda às
+  **perguntas definidas no início** (os objetivos).
+- ✅ Desenvolvimento no **Power BI** — confirmado (a solução completa é em Power BI).
