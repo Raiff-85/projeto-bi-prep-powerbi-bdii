@@ -16,3 +16,6 @@ desktop.ini
 # pacote zip oficial e bases extraídas
 dados/*.zip
 dados/2025/
+
+# binario pesado - fica local, entrega por e-mail
+powerbi/*.pbix
