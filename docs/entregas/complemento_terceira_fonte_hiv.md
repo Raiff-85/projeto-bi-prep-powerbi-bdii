@@ -75,11 +75,26 @@ Arquivos gerados em `dados/hiv/` pelo script `scripts/gera_dados_hiv.py`:
   NÃO está no topo da PrEP** — lacuna de cobertura territorial. **PB: 71,2/100 mil (20º
   de 27)** com carga de aids de 13,9/100 mil (23º).
 
-## 5. Impacto no modelo e no dashboard
+## 5. Impacto no modelo e no dashboard (decisão FINAL de 31/10, pelo integrante)
 
-- 2 novas consultas Power Query (`FATO_CasosAids` — categoria×ano, e `DIM_UF_Pop` —
-  população por UF; a tabela de casos por UF entra como apoio da P8); 1 nova dimensão
-  opcional de categoria de exposição; 2 novos relacionamentos (Ano→DIM_Calendário,
-  UF→DIM_UF) — **cardinalidades 1:1 e 1:N, filtro único direção única** (mesma regra do modelo atual).
-- 1 nova página do dashboard: **"Epidemia × PrEP"** (P6, P7, P8): barras casos por
-  categoria (2018–2024), linhas casos × usuários por ano, mapa/barras PrEP por 100 mil × UF.
+O integrante decidiu: **as perguntas de adesão (P6 e P8) são respondidas só com a base
+da PrEP**, sem população do IBGE no dashboard — por meio de novas abas com os gráficos
+adequados (quem entra mais por população/UF, quem permanece mais, quem desiste mais).
+A base de população IBGE fica no repositório apenas como **material de apoio opcional**
+(`dados/hiv/pop_uf_ibge_2024.csv` e `taxa_prep_uf_100k.csv`), fora do .pbix.
+
+Adesão, operacionalmente, na base PrEP = **entrada** (novos usuários no ano, status
+`Em PrEP <ano>`), **permanência** (Taxa de Retenção % por grupo) e **saída**
+(Usuários Descontinuados por grupo).
+
+- **P6 (população):** aba nova "Adesao Populacao" — colunas empilhadas Usuários em PrEP
+  por Ano com legenda Pop_genero_pratica (quem cresce mais); barras Taxa de Retenção % e
+  Usuários Descontinuados por Pop_genero_pratica (quem permanece/abandona mais).
+- **P8 (estado):** aba nova "Estados" — barras Usuários Únicos por UF_UDM (onde a PrEP
+  chegou mais); barras Taxa de Retenção % por UF_UDM; segmentação de UF ligada ao
+  Usuários em PrEP por Ano (crescimento estado a estado).
+- **P7 (novos casos por população):** única aba que usa a 3ª fonte — aba "Epidemia"
+  com os casos de aids por categoria de exposição (homossexual × heterossexual ×
+  bissexual, 2018–2024; 2025 parcial). Consulta nova `FATO_CasosAidsAnual` (unpivot dos
+  anos), **sem relacionamento com o modelo estrela** (usa o próprio Ano no eixo —
+  evita relação ambígua com DIM_Calendário) e com a ressalva aids≠HIV declarada.
