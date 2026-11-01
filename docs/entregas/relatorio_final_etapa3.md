@@ -232,7 +232,18 @@ leituras por população.
 
 ---
 
-## 9. Referências
+## 9. Estrutura do repositório (reprodutibilidade)
+
+- `dados/2025/` — bases oficiais PrEP (usuários e dispensas); `dados/hiv/` — TABNET aids
+  (categoria e UF), população IBGE e taxa PrEP/100 mil (apoio); script `scripts/gera_dados_hiv.py`.
+- `powerbi/Projeto_BI_PREP.pbix` — modelo, ETL (Power Query M em `.zcode-gui/m/q*.txt`
+  espelhado no repositório), medidas DAX e dashboard (7 páginas).
+- `docs/` — especificação resumida, modelo dimensional, dicionário de dados (Etapa 1),
+  relatório de ETL (Etapa 2) e registros de mudança de escopo (Etapa 3).
+
+---
+
+## 10. Referências
 
 - KIMBALL, Ralph; ROSS, Margy. *The Data Warehouse Toolkit: The Definitive Guide to
   Dimensional Modeling*. 3. ed. Indianapolis: John Wiley & Sons, 2013.
@@ -251,14 +262,3 @@ leituras por população.
   e DAX. Disponível em: https://learn.microsoft.com/power-bi/. Acesso em: out. 2026.
 - UFPB. **Banco de Dados II (2026.2) — Especificação do projeto de BI** (Profª. Renata
   Viegas). Material da disciplina.
-
----
-
-## 10. Estrutura do repositório (reprodutibilidade)
-
-- `dados/2025/` — bases oficiais PrEP (usuários e dispensas); `dados/hiv/` — TABNET aids
-  (categoria e UF), população IBGE e taxa PrEP/100 mil (apoio); script `scripts/gera_dados_hiv.py`.
-- `powerbi/Projeto_BI_PREP.pbix` — modelo, ETL (Power Query M em `.zcode-gui/m/q*.txt`
-  espelhado no repositório), medidas DAX e dashboard (7 páginas).
-- `docs/` — especificação resumida, modelo dimensional, dicionário de dados (Etapa 1),
-  relatório de ETL (Etapa 2) e registros de mudança de escopo (Etapa 3).
