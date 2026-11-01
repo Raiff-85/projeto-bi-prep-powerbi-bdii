@@ -248,6 +248,14 @@ novos de HIV em 2024.
 6. **FATO_CasosHIVAnual não tem relacionamento** com o modelo estrela: a leitura
    PrEP×HIV é lado a lado (mesmos eixos de ano/população), não um join — decisão
    documentada para evitar relação ambígua.
+7. **A base de HIV registra sexo registral (Masculino/Feminino), não identidade de
+   gênero.** A edição 2025 do Boletim não traz qualquer discriminação de pessoas trans —
+   verificado: nenhum capítulo ou tabela por identidade de gênero —, de modo que pessoas
+   trans aparecem diluídas nos sexos registrais. O recorte por identidade de gênero
+   existe apenas na base PrEP (`Pop_genero_pratica`), usada nas abas Perfil e Adesao
+   Populacao: gays e outros HSH cis (235.850), mulheres cis (40.678), homens
+   heterossexuais cis (36.827), mulheres trans (11.240), homens trans (5.534), não
+   bináries (1.920) e travestis (926) — usuários de PrEP, 2018–2025.
 
 ---
 
