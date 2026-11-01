@@ -212,8 +212,8 @@ calendário), ETL reproduzível em Power Query, camada DAX com medidas justifica
 dashboard de 7 páginas que responde às 8 perguntas de negócio — incluindo a análise
 epidemiológica que conecta adesão à PrEP e carga de aids por população. O achado central
 é acionável: **a focalização da PrEP em HSH está funcionando, mas há dois vales claros de
-cobertura — heterossexuais (maioria dos casos novos) e a região Norte — que apontam as
-frentes prioritárias da política pública.**
+cobertura — heterossexuais (maioria dos casos novos de aids) e a região Norte — que
+apontam as frentes prioritárias da política pública.**
 
 Como aprendizados de modelagem, a decisão de grão (1 dispensação; 1 usuário × ano)
 determinou toda a camada de medidas: contagens de usuários são **semi-aditivas** e exigem
