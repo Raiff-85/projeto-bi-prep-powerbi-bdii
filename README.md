@@ -19,7 +19,7 @@ detectados por população de exposição** (Boletim Epidemiológico HIV e Aids 
 |---|---|
 | `dados/2025/` | Bases oficiais PrEP — usuários e dispensações (**fora do git** por tamanho; ZIP oficial acima) |
 | `dados/hiv/` | Casos de HIV detectados, taxa de detecção e população IBGE (CSVs gerados por script, versionados) |
-| `docs/` | [ROTEIRO.md](docs/ROTEIRO.md) · [modelo-dimensional.md](docs/modelo-dimensional.md) · especificação resumida · entregas das etapas |
+| `docs/` | [modelo-dimensional.md](docs/modelo-dimensional.md) · especificação resumida · entregas das etapas |
 | `powerbi/` | Projeto `.pbix` + M do ETL espelhado em [`powerbi/etl_m/`](powerbi/etl_m/) |
 | `scripts/` | `gera_dados_hiv.py` — transcreve o Boletim para CSV com asserts de validação |
 
@@ -42,8 +42,7 @@ taxa de detecção por UF (RR 37,5 … PB 12,4 por 100 mil) como contraste terri
 
 O trabalho da disciplina anterior (PrEP na Paraíba, 2018–2024) embasou o domínio, as
 regras de limpeza e as perguntas; este projeto amplia o escopo para o Brasil inteiro e
-reorganiza os dados em modelo estrela. Ver
-[docs/ROTEIRO.md](docs/ROTEIRO.md#2-o-que-estamos-aproveitando-do-trabalho-de-análise-de-dados-20252).
+reorganiza os dados em modelo estrela.
 
 ## Status
 
