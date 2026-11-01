@@ -2,7 +2,7 @@
 
 **Disciplina:** Banco de Dados II — Profª. Renata Viegas — UFPB — 2026.2
 **Projeto:** Análise do Programa Nacional de PrEP no SUS e sua relação com a epidemia de HIV/aids no Brasil
-**Integrante:** Emanoel Raiff Nóbrega Fernandes
+**Integrante:** Emanoel Raiff Gomes da Nóbrega Filho
 **Data:** 01/11/2026 · **Entrega:** 04/11/2026
 **Artefatos:** `powerbi/Projeto_BI_PREP.pbix` (dashboard com 7 páginas) · repositório GitHub (github.com/Raiff-85), com bases em `dados/`, ETL em `powerbi/` e documentação em `docs/`
 
@@ -110,9 +110,10 @@ registrada.
    população (inexistente nas fontes originais); P8 sem normalização favoreceria SP
    apenas por ser o estado mais populoso — por isso a análise de apoio por 100 mil
    habitantes acompanha o relatório (SP 279,8 e DF 245,6 por 100 mil lideram a PrEP;
-   o Norte tem as maiores taxas de detecção de HIV do país — RR 37,5; AM 32,7; PA 24,2;
-   AP 22,7 por 100 mil em 2024 — sem cobertura proporcional de PrEP; PB: PrEP 71,2 —
-   20º/27 — contra detecção de HIV 12,4 — 27º/27).
+   quatro das seis maiores taxas de detecção de HIV do país em 2024 — RR 37,5; AM 32,7;
+   PA 24,2; AP 22,7 por 100 mil, ao lado de RJ 27,4 e DF 22,9 — são do Norte, sem
+   cobertura proporcional de PrEP; PB: PrEP 71,2 — 20º/27 — contra a menor taxa de
+   detecção do país, 12,4 — 27º/27).
 
 ---
 
@@ -178,10 +179,13 @@ Tabela 8, dados em `dados/hiv/`.)
 **P8 — Qual estado melhor aderiu?** Em volume absoluto, SP (≈140 mil usuários únicos),
 RJ e MG. Normalizando pela população (apoio IBGE), **SP (279,8/100 mil), DF (245,6) e
 RJ (222,9) lideram**; SC também se destaca (200,5). A Paraíba registra 71,2 usuários de
-PrEP por 100 mil (20º entre 27 UFs). O contraste mais importante: **as maiores taxas de
-detecção de HIV do país estão no Norte (RR 37,5; AM 32,7; PA 24,2 e AP 22,7 por 100 mil
-em 2024 — 4 das 6 primeiras colocações) e esses estados não figuram no topo da adesão à
-PrEP** — lacuna territorial clara de focalização da política pública.
+PrEP por 100 mil (20º entre 27 UFs). O contraste territorial usa a **taxa de detecção de
+HIV** do Boletim — quantos diagnósticos novos foram notificados por 100 mil habitantes
+em 2024. O ranking: RR (37,5), AM (32,7), RJ (27,4), PA (24,2), DF (22,9) e AP (22,7) são
+as seis maiores taxas do país — **quatro delas de estados do Norte** — e nenhum estado do
+Norte figura entre os líderes de PrEP. A Paraíba tem a **menor taxa de detecção do país
+(12,4/100 mil — 27ª)**: proporcionalmente, foi a UF que menos notificou diagnósticos
+novos de HIV em 2024.
 
 ---
 
@@ -199,9 +203,9 @@ PrEP** — lacuna territorial clara de focalização da política pública.
   **casos de HIV detectados (transmissão recente)** — e não casos de aids (que marcariam
   diagnóstico tardio) —, o dado aponta diretamente o público em que a prevenção ainda
   não chegou.
-- Corolário territorial (P8): a mesma desigualdade aparece no mapa — o Norte concentra
-  as maiores taxas de detecção de HIV do país (RR 37,5; AM 32,7; PA 24,2; AP 22,7 por
-  100 mil) sem cobertura proporcional de PrEP.
+- Corolário territorial (P8): a mesma desigualdade aparece no mapa — quatro das seis
+  maiores taxas de detecção de HIV do país em 2024 são de estados do Norte (RR 37,5;
+  AM 32,7; PA 24,2; AP 22,7 por 100 mil), sem cobertura proporcional de PrEP.
 
 ---
 
@@ -211,7 +215,9 @@ PrEP** — lacuna territorial clara de focalização da política pública.
    **detectados/diagnosticados** (Sinan + Siscel/Siclom) — o melhor proxy aberto de
    transmissão recente; estimativas de incidência só existem no Boletim (PDF). O Boletim
    nota ainda que os dados dos **últimos cinco anos são preliminares** (consolidação
-   futura tende a aumentá-los).
+   futura tende a aumentá-los). E taxa de detecção baixa não prova, sozinha, menos
+   transmissão: pode refletir menos teste/busca ativa ou atraso de notificação — a
+   leitura territorial é sempre qualificada.
 2. **Categoria de exposição (Boletim/Sinan) ≠ Pop_genero_pratica (base PrEP).** Os
    taxonomias não são idênticos (HSH ≈ homossexual+bissexual; cis hetero ≈ heterossexual).
    A comparação P6×P7 é por aproximação.
@@ -238,8 +244,8 @@ dashboard de 7 páginas que responde às 8 perguntas de negócio — incluindo a
 epidemiológica que conecta adesão à PrEP e transmissão recente por população. O achado
 central é acionável: **a focalização da PrEP em HSH está funcionando, mas há dois vales
 claros de cobertura — heterossexuais (≈48% dos casos novos de HIV) e a região Norte
-(maiores taxas de detecção do país) — que apontam as frentes prioritárias da política
-pública.**
+(com 4 das 6 maiores taxas de detecção de HIV do país) — que apontam as frentes
+prioritárias da política pública.**
 
 Como aprendizados de modelagem, a decisão de grão (1 dispensação; 1 usuário × ano)
 determinou toda a camada de medidas: contagens de usuários são **semi-aditivas** e exigem

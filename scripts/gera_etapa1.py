@@ -86,7 +86,7 @@ doc = """# Etapa 1 — Definição do projeto (BDII 2026.2)
 **Título do projeto:** Painel de Business Intelligence do Programa PrEP no Brasil —
 quem usa, como acessa e quem permanece (2018–2025)
 
-**Integrante:** Emanoel Raiff Nóbrega Fernandes (matrícula 20221350010)
+**Integrante:** Emanoel Raiff Gomes da Nóbrega Filho (matrícula 20221350010)
 
 ---
 
