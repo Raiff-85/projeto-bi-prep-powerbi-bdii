@@ -1,0 +1,10 @@
+let
+    Origem = StgDispensas,
+    Colunas = Table.SelectColumns(Origem, {"tp_servico_atendimento", "tp_esquema_prep", "tp_modalidade", "Publico_privado_disp", "tp_profissional"}),
+    SemVazios = Table.TransformColumns(Colunas, List.Transform(Table.ColumnNames(Colunas),
+        each {_, each if _ = null or _ = "" then "Não informado" else _, type text})),
+    Distinto = Table.Distinct(SemVazios),
+    ComChave = Table.AddColumn(Distinto, "TipoKey",
+        each Text.Combine({[tp_servico_atendimento], [tp_esquema_prep], [tp_modalidade], [Publico_privado_disp], [tp_profissional]}, " | "), type text)
+in
+    ComChave

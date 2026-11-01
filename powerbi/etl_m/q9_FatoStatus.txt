@@ -1,0 +1,10 @@
+let
+    Origem = StgUsuarios,
+    Colunas = Table.SelectColumns(Origem, {"Cod_unificado", "codigo_udm", "EmPrEP_2018", "EmPrEP_2019", "EmPrEP_2020", "EmPrEP_2021", "EmPrEP_2022", "EmPrEP_2023", "EmPrEP_2024", "EmPrEP_2025"}),
+    Despivotado = Table.UnpivotOtherColumns(Colunas, {"Cod_unificado", "codigo_udm"}, "AnoColuna", "Status"),
+    Ano = Table.AddColumn(Despivotado, "Ano", each Number.FromText(Text.End([AnoColuna], 4)), Int64.Type),
+    Foto = Table.AddColumn(Ano, "DataKey", each #date([Ano], 12, 31), type date),
+    Flag = Table.AddColumn(Foto, "EmPrEP", each if [Status] = null or [Status] = "" then null else if Text.Contains([Status], "Em PrEP") then 1 else 0, Int64.Type),
+    SoValidos = Table.SelectColumns(Table.SelectRows(Flag, each [EmPrEP] <> null), {"Cod_unificado", "codigo_udm", "DataKey", "Ano", "EmPrEP"})
+in
+    SoValidos

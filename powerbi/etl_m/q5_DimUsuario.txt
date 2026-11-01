@@ -1,0 +1,12 @@
+let
+    Origem = StgUsuarios,
+    Ordenado = Table.Sort(Origem, {{"dt_disp_max", Order.Descending}}),
+    Unico = Table.Distinct(Ordenado, {"Cod_unificado"}),
+    Colunas = Table.SelectColumns(Unico, {"Cod_unificado", "fetar", "Pop_genero_pratica", "raca", "escolaridade",
+        "st_populacao_rua", "st_privada_liberdade", "st_habitantes_fronteira", "st_droga_injetavel",
+        "st_substancias_psicoativas", "Pop_prof_sexo", "Pop_plan_rep", "Pop_gestante", "Pop_amamentacao",
+        "dt_disp_min", "dt_disp_max", "codigo_udm", "UF_UDM", "regiao_UDM"}),
+    Categorias = List.RemoveItems(Table.ColumnNames(Colunas), {"Cod_unificado", "dt_disp_min", "dt_disp_max", "codigo_udm"}),
+    SemVazios = Table.TransformColumns(Colunas, List.Transform(Categorias, each {_, each if _ = null or _ = "" then "Não informado" else _, type text}))
+in
+    SemVazios

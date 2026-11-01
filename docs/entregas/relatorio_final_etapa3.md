@@ -287,8 +287,8 @@ leituras por população.
   Epidemiológico HIV e Aids 2025 (PDF) e CSVs transcritos (casos por categoria 13+, casos
   por UF, taxa de detecção por UF), população IBGE e taxa PrEP/100 mil (apoio); script
   `scripts/gera_dados_hiv.py`.
-- `powerbi/Projeto_BI_PREP.pbix` — modelo, ETL (Power Query M em `.zcode-gui/m/q*.txt`
-  espelhado no repositório), medidas DAX e dashboard (7 páginas).
+- `powerbi/Projeto_BI_PREP.pbix` — modelo, ETL (Power Query M espelhado em
+  `powerbi/etl_m/`), medidas DAX e dashboard (7 páginas).
 - `docs/` — especificação resumida, modelo dimensional, dicionário de dados (Etapa 1),
   relatório de ETL (Etapa 2) e registros de mudança de escopo (Etapa 3).
 

@@ -1,0 +1,11 @@
+let
+    Origem = StgDispensas,
+    SemVazios = Table.TransformColumns(Origem, List.Transform({"tp_servico_atendimento", "tp_esquema_prep", "tp_modalidade", "Publico_privado_disp", "tp_profissional"},
+        each {_, each if _ = null or _ = "" then "Não informado" else _, type text})),
+    ComChave = Table.AddColumn(SemVazios, "TipoKey",
+        each Text.Combine({[tp_servico_atendimento], [tp_esquema_prep], [tp_modalidade], [Publico_privado_disp], [tp_profissional]}, " | "), type text),
+    Fato = Table.SelectColumns(ComChave, {"dt_disp", "Cod_unificado", "codigo_udm", "TipoKey"}),
+    Renomear = Table.RenameColumns(Fato, {{"dt_disp", "DataKey"}}),
+    Contador = Table.AddColumn(Renomear, "QtdDispensas", each 1, Int64.Type)
+in
+    Contador

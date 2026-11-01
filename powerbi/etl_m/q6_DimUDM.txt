@@ -1,0 +1,14 @@
+let
+    Origem = StgDispensas,
+    Colunas = Table.SelectColumns(Origem, {"codigo_udm", "nome_udm", "cod_ibge_udm", "UF_UDM", "regiao_UDM"}),
+    SemVazios = Table.TransformColumns(Colunas, {{"nome_udm", each if _ = null or _ = "" then "Não informado" else _, type text},
+        {"cod_ibge_udm", each if _ = null or _ = "" then "Não informado" else _, type text},
+        {"UF_UDM", each if _ = null or _ = "" then "NI" else _, type text},
+        {"regiao_UDM", each if _ = null or _ = "" then "Não informado" else _, type text}}),
+    Agrupado = Table.Group(SemVazios, {"codigo_udm"},
+        {{"nome_udm", each List.Max([nome_udm]), type text},
+         {"cod_ibge_udm", each List.Max([cod_ibge_udm]), type text},
+         {"UF_UDM", each List.Max([UF_UDM]), type text},
+         {"regiao_UDM", each List.Max([regiao_UDM]), type text}})
+in
+    Agrupado

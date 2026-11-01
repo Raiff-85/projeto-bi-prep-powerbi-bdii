@@ -1,0 +1,11 @@
+let
+    Fonte = Csv.Document(File.Contents("C:\Users\Administrator\Desktop\Trabalho Banco de Dados II - Power BI\dados\hiv\hiv_casos_categoria_sexo_2018_2025.csv"), [Delimiter=";", Encoding=65001]),
+    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+    Renomeia = Table.RenameColumns(Cabecalhos, {{"2025_preliminar", "2025"}}),
+    Tipos = Table.TransformColumnTypes(Renomeia, {{"categoria_exposicao", type text}, {"sexo", type text}, {"2018", Int64.Type}, {"2019", Int64.Type}, {"2020", Int64.Type}, {"2021", Int64.Type}, {"2022", Int64.Type}, {"2023", Int64.Type}, {"2024", Int64.Type}, {"2025", Int64.Type}}),
+    SemTotal = Table.SelectRows(Table.RemoveColumns(Tipos, {"total"}), each [categoria_exposicao] <> "Total (13+ anos)"),
+    Despivotado = Table.UnpivotOtherColumns(SemTotal, {"categoria_exposicao", "sexo"}, "Ano", "Casos_HIV"),
+    TiposFinais = Table.TransformColumnTypes(Despivotado, {{"Ano", Int64.Type}, {"Casos_HIV", Int64.Type}}),
+    RenomeiaFinal = Table.RenameColumns(TiposFinais, {{"Casos_HIV", "Casos de HIV detectados (13+)"}})
+in
+    RenomeiaFinal

@@ -1,0 +1,8 @@
+let
+    Fonte = Csv.Document(File.Contents(pPasta & "Disp_PrEP_2025.csv"), [Delimiter=";", Encoding=65001]),
+    Cabecalho = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+    Datas = Table.TransformColumnTypes(Cabecalho, {{"dt_disp", type date}, {"dt_disp_min", type date}, {"dt_disp_max", type date}}, "sv-SE"),
+    ColunasTexto = List.Select(Table.ColumnNames(Datas), each not List.Contains({"dt_disp", "dt_disp_min", "dt_disp_max"}, _)),
+    SemEspacos = Table.TransformColumns(Datas, List.Transform(ColunasTexto, each {_, each Text.Trim(Text.From(_)), type text}))
+in
+    SemEspacos

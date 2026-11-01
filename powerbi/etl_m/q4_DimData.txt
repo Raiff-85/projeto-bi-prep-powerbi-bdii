@@ -1,0 +1,15 @@
+let
+    Inicio = #date(2018, 1, 1),
+    Fim = #date(2025, 12, 31),
+    Dias = Duration.Days(Fim - Inicio) + 1,
+    Lista = List.Dates(Inicio, Dias, #duration(1, 0, 0, 0)),
+    Tab = Table.FromList(Lista, Splitter.SplitByNothing(), {"Data"}),
+    Tipos = Table.TransformColumnTypes(Tab, {{"Data", type date}}),
+    Adiciona = Table.AddColumn(Tipos, "Ano", each Date.Year([Data]), Int64.Type),
+    Adiciona2 = Table.AddColumn(Adiciona, "NumTrimestre", each Date.QuarterOfYear([Data]), Int64.Type),
+    Adiciona3 = Table.AddColumn(Adiciona2, "Trimestre", each "T" & Text.From([NumTrimestre]) & "/" & Text.From([Ano]), type text),
+    Adiciona4 = Table.AddColumn(Adiciona3, "MesNum", each Date.Month([Data]), Int64.Type),
+    Adiciona5 = Table.AddColumn(Adiciona4, "NomeMes", each Date.ToText([Data], "MMMM", "pt-BR"), type text),
+    Adiciona6 = Table.AddColumn(Adiciona5, "MesAno", each Text.End("0" & Text.From([MesNum]), 2) & "/" & Text.From([Ano]), type text)
+in
+    Adiciona6

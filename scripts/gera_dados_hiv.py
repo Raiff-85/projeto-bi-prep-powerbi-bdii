@@ -101,7 +101,7 @@ def numeros_de_secao(texto: str, rotulo: str) -> list[int]:
     return [int(float(v.replace(".", "").replace(",", "."))) for v in nums[:28:2]]
 
 
-def parse_tabela8() -> list[list]:
+def parse_tabela8() -> tuple[list[list], list[list]]:
     t = texto_da_tabela("TABELA 8")
     tm = re.search(r"Masculino(.*?)Feminino", t, re.S).group(1)
     tf = t.split("Feminino", 1)[1].replace("SexualHeterossexual", "Heterossexual")
@@ -121,22 +121,33 @@ def parse_tabela8() -> list[list]:
     assert m["Heterossexual"][11] == 6325 and f["Heterossexual"][11] == 7099
 
     i0 = COL_TAB1.index("2018")
-    linhas = []
+    linhas, linhas_sexo = [], []
     for rot in ["Homossexual", "Bissexual"]:          # categorias so de homens
         linhas.append([rot] + m[rot][i0:i0 + 8] + [m[rot][13]])
+        linhas_sexo.append([rot, "Masculino"] + m[rot][i0:i0 + 8] + [m[rot][13]])
+    sang = ["Hemofílico", "Transfusão", "Acidente de trabalho"]
+    m_sang = [sum(x) for x in zip(*(m[r] for r in sang))]
+    f_sang = [sum(x) for x in zip(*(f[r] for r in sang))]
     for rot in ["Heterossexual", "Uso de drogas injetáveis",
                 "Transmissão vertical", "Ignorado"]:  # M + F
         soma = [a + b for a, b in zip(m[rot], f[rot])]
         linhas.append([rot] + soma[i0:i0 + 8] + [soma[13]])
-    sang = ["Hemofílico", "Transfusão", "Acidente de trabalho"]
-    soma = [a + b for a, b in
-            zip([sum(x) for x in zip(*(m[r] for r in sang))],
-                [sum(x) for x in zip(*(f[r] for r in sang))])]
+        linhas_sexo.append([rot, "Masculino"] + m[rot][i0:i0 + 8] + [m[rot][13]])
+        linhas_sexo.append([rot, "Feminino"] + f[rot][i0:i0 + 8] + [f[rot][13]])
+    soma = [a + b for a, b in zip(m_sang, f_sang)]
     linhas.append(["Outras (hemofil./transfusão/acidente)"]
                   + soma[i0:i0 + 8] + [soma[13]])
+    linhas_sexo.append(["Outras (hemofil./transfusão/acidente)", "Masculino"]
+                       + m_sang[i0:i0 + 8] + [m_sang[13]])
+    linhas_sexo.append(["Outras (hemofil./transfusão/acidente)", "Feminino"]
+                       + f_sang[i0:i0 + 8] + [f_sang[13]])
     tot = [a + b for a, b in zip(m["Total"], f["Total"])]
     linhas.append(["Total (13+ anos)"] + tot[i0:i0 + 8] + [tot[13]])
-    return linhas
+
+    # validacoes do recorte por sexo (ano 2024 = indice 11)
+    assert m["Homossexual"][11] == 11491 and m["Bissexual"][11] == 2404
+    assert m["Ignorado"][11] + f["Ignorado"][11] == 10711
+    return linhas, linhas_sexo
 
 
 def parse_tabela_uf(marcador: str, colunas: list[str]) -> list[list]:
@@ -189,9 +200,12 @@ def main():
     baixa_boletim()
 
     # 1) casos de HIV por categoria (13+ anos, M+F) - Tabela 8
-    cat = parse_tabela8()
+    cat, cat_sexo = parse_tabela8()
     salva_csv("hiv_casos_categoria_2018_2025.csv", cat,
               "categoria_exposicao;2018;2019;2020;2021;2022;2023;2024;"
+              "2025_preliminar;total")
+    salva_csv("hiv_casos_categoria_sexo_2018_2025.csv", cat_sexo,
+              "categoria_exposicao;sexo;2018;2019;2020;2021;2022;2023;2024;"
               "2025_preliminar;total")
 
     # 2) casos de HIV por UF de residencia - Tabela 1
