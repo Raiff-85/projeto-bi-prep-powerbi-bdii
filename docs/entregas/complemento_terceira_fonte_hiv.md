@@ -98,3 +98,37 @@ Adesão, operacionalmente, na base PrEP = **entrada** (novos usuários no ano, s
   bissexual, 2018–2024; 2025 parcial). Consulta nova `FATO_CasosAidsAnual` (unpivot dos
   anos), **sem relacionamento com o modelo estrela** (usa o próprio Ano no eixo —
   evita relação ambígua com DIM_Calendário) e com a ressalva aids≠HIV declarada.
+
+---
+
+## 6. ADENDO (01/11/2026) — a 3ª fonte passou de casos de AIDS para casos de HIV detectados
+
+**O que mudou:** na revisão final, o integrante identificou uma inconsistência de
+objetivo: a P7 existe para mostrar **quem não está se prevenindo** — transmissão
+**recente** de HIV — e não quem desenvolveu aids. Casos de aids medem outra coisa:
+infecções antigas que chegaram tardiamente ao diagnóstico/tratamento. A base TABNET de
+casos de aids (incorporada em 31/10, conforme as seções acima) foi então **substituída**
+pelos **casos de HIV detectados** do **Boletim Epidemiológico HIV e Aids 2025**
+(Dathi/MS, dez/2025; Sinan + Siscel/Siclom atualizados em 30/09/2025).
+
+**Impacto:**
+
+- `FATO_CasosAidsAnual` → `FATO_CasosHIVAnual` (mesma estrutura: categoria de exposição
+  × ano; recorte de 13+ anos, como publica o Boletim; sem relacionamento com a estrela,
+  como antes). Aba "Epidemia": mesmo layout, com os casos de HIV detectados.
+- CSVs em `dados/hiv/`: `hiv_casos_categoria_2018_2025.csv`, `hiv_casos_uf_2018_2025.csv`
+  e `hiv_taxa_deteccao_uf_2014_2024.csv` — transcrições **validadas** das Tabelas 8, 1 e
+  2 do Boletim pelo script `scripts/gera_dados_hiv.py` (o PDF oficial acompanha a pasta).
+  Os CSVs de aids do TABNET foram removidos (recuperáveis pelo histórico do git).
+- **P7 com os números novos:** série estável em ≈36–40 mil casos novos/ano (2020: 32.949,
+  pandemia; 2025 parcial). Em 2024, entre casos de 13+ com categoria conhecida (28.176):
+  **HSH ≈49%** (homossexuais 40,8% + bissexuais 8,5%) × **heterossexuais ≈48%** (13.424).
+- **Cruzamento P6×P7:** HSH são ~2/3 dos usuários de PrEP e ~49% dos casos novos
+  (super-representados na prevenção); heterossexuais são ~1/3 da PrEP e ~48% dos casos
+  novos (sub-alcançados).
+- **Território (P8, apoio):** maiores taxas de detecção de HIV 2024 — RR 37,5; AM 32,7;
+  RJ 27,4; PA 24,2; AP 22,7 (Brasil: 18,4) — o Norte tem 4 das 6 maiores e não está no
+  topo da PrEP; PB 12,4 (27ª/27) com PrEP de 71,2 (20º/27).
+- **Ressalvas atualizadas:** casos detectados ≠ incidência estimada (que só existe em
+  PDF); os últimos cinco anos são preliminares, avisa o Boletim; o recorte por categoria
+  é de 13+ anos; "Ignorado" (~27% dos casos de 13+ em 2024) é mostrado, não distribuído.

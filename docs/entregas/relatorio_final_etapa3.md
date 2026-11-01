@@ -3,7 +3,7 @@
 **Disciplina:** Banco de Dados II — Profª. Renata Viegas — UFPB — 2026.2
 **Projeto:** Análise do Programa Nacional de PrEP no SUS e sua relação com a epidemia de HIV/aids no Brasil
 **Integrante:** Emanoel Raiff Nóbrega Fernandes
-**Data:** 31/10/2026 · **Entrega:** 04/11/2026
+**Data:** 01/11/2026 · **Entrega:** 04/11/2026
 **Artefatos:** `powerbi/Projeto_BI_PREP.pbix` (dashboard com 7 páginas) · repositório GitHub (github.com/Raiff-85), com bases em `dados/`, ETL em `powerbi/` e documentação em `docs/`
 
 ---
@@ -13,17 +13,19 @@
 O projeto construiu, em Power BI, um painel de business intelligence sobre o **Programa
 Nacional de PrEP (Profilaxia Pré-Exposição) do SUS**, usando a base oficial do
 Departamento de DST/Aids/HV do Ministério da Saúde (dados 2018–2025, versão de
-07/05/2026) e, como ampliação de escopo registrada, a base TABNET de **casos de
-aids por categoria de exposição** (SINAN/SIM/SISCEL, 2018–2025).
+07/05/2026) e, como ampliação de escopo registrada, os **casos de HIV detectados por
+população de exposição** do Boletim Epidemiológico HIV e Aids 2025 (Sinan +
+Siscel/Siclom, 2018–2025; 2025 parcial).
 
 O modelo dimensional segue **Kimball**: duas tabelas fatos (dispensações, transacional;
 status anual do usuário, *periodic snapshot*) e dimensões de Data, Usuário, Unidade
 Dispensadora (com UF/região) e Tipo de Atendimento. O dashboard responde às 8 perguntas
 de negócio definidas no projeto — incluindo as três novas (P6–P8) que comparam **adesão
-à PrEP × carga epidemiológica por população**, revelando o principal achado: **os
-heterossexuais são a maioria absoluta dos novos casos de aids, mas têm a menor adesão
-relativa à PrEP, enquanto gays e outros HSH — minoria nos casos — são a maioria dos
-usuários do programa**.
+à PrEP × transmissão recente por população**, revelando o principal achado: **os casos
+novos de HIV se dividem quase meio a meio entre gays e outros HSH (≈49%) e
+heterossexuais (≈48%), mas a PrEP se concentra nos primeiros (~2/3 dos usuários) — os
+heterossexuais, metade da transmissão detectada, ainda são alcançados pela prevenção em
+bem menor escala**.
 
 ---
 
@@ -35,13 +37,17 @@ usuários do programa**.
 |---|---|---|---|---|
 | 1 | MS/Dathi — Banco de usuários de PrEP (`Banco_PrEP_2025.csv`) | 1 linha = 1 usuário (status `EmPrEP_2018…EmPrEP_2025`) | 2018–2025 | 332.976 linhas |
 | 2 | MS/Dathi — Dispensações de PrEP (`Disp_PrEP_2025.csv`) | 1 linha = 1 dispensação | 02/01/2018–31/12/2025 | 1.672.709 linhas |
-| 3 | TABNET/Dathi — Casos de aids por categoria de exposição e por UF | matriz ano × categoria (e ano × UF) | 2018–2025 (2025 parcial até 30/09) | 10×10 e 29×10 |
+| 3 | MS/Dathi — **Boletim Epidemiológico HIV e Aids 2025** (Tabelas 1, 2 e 8): casos de HIV detectados por UF, taxa de detecção por UF e casos por categoria de exposição (13+ anos) | matriz ano × categoria (e ano × UF) | 2018–2025 (2025 parcial até 30/09) | PDF transcrito para CSV por script (`scripts/gera_dados_hiv.py`) |
 | 4 | IBGE (API SIDRA, tabela 6579) — população estimada por UF, 2024 | 1 linha = 1 UF | 2024 | 27×2 |
 
 As fontes 3 e 4 foram incorporadas em 31/10/2026 (mudança registrada e justificada no
 documento `docs/entregas/complemento_terceira_fonte_hiv.md`, como exige a especificação).
-A fonte 4 (IBGE) ficou como **material de apoio** fora do .pbix, por decisão do
-integrante também registrada no mesmo documento.
+Em 01/11/2026 a fonte 3 foi **substituída** (TABNET de casos de aids → Boletim com casos
+de **HIV** detectados), porque o objetivo da P7 é medir transmissão recente — quem não
+está se prevenindo — e não casos de aids (que marcam diagnóstico tardio/acesso a
+tratamento). A substituição está registrada como adendo no mesmo documento. A fonte 4
+(IBGE) ficou como **material de apoio** fora do .pbix, por decisão do integrante também
+registrada.
 
 ### 2.2 Modelo dimensional (esquema estrela, metodologia Kimball)
 
@@ -55,10 +61,10 @@ integrante também registrada no mesmo documento.
   `Pop_genero_pratica`, raça, escolaridade, flags de vulnerabilidade), Dim_UDM (unidade
   dispensadora, com `UF_UDM` e `regiao_UDM` derivados no ETL), Dim_TipoAtendimento
   (serviço, esquema, modalidade, esfera, profissional).
-- **FATO_CasosAidsAnual** (3ª fonte) — grão: categoria de exposição × ano. **Sem
-  relacionamento** com a estrela (decisão deliberada: evita relação ambígua com a
-  Dim_Data e com UF de significado distinto); a correlação é feita visualmente na aba
-  Epidemia.
+- **FATO_CasosHIVAnual** (3ª fonte) — grão: categoria de exposição × ano (casos de HIV
+  detectados, 13+ anos). **Sem relacionamento** com a estrela (decisão deliberada: evita
+  relação ambígua com a Dim_Data e com UF de significado distinto); a leitura cruzada é
+  feita visualmente na aba Epidemia.
 
 ### 2.3 ETL principal (Power Query / M)
 
@@ -67,7 +73,8 @@ integrante também registrada no mesmo documento.
 - Derivação de `Ano`, `DataKey` (31/12 de cada ano) e flag `EmPrEP` a partir do texto de status;
 - **DIM_UDM** derivada das dispensas (dedupe por `codigo_udm`; valores vazios → "Não informado"/"NI");
 - Limpeza: `Trim` em categorias com espaços (ex.: `'Sorologia   '`), categorias ausentes → "Não informado";
-- FATO_CasosAidsAnual: unpivot dos anos do CSV TABNET, exclusão da linha "Total", tipagem Int64.
+- FATO_CasosHIVAnual: unpivot dos anos do CSV transcrito do Boletim (Tabela 8),
+  exclusão da linha "Total", tipagem Int64.
 
 ### 2.4 Medidas DAX (todas com justificativa)
 
@@ -83,22 +90,29 @@ integrante também registrada no mesmo documento.
 
 ---
 
-## 3. Mudanças de escopo registradas (31/10/2026)
+## 3. Mudanças de escopo registradas (31/10 e 01/11/2026)
 
-1. **Ampliação de fontes** (2 → 4): inclusão do TABNET/aids (casos por categoria e UF) e
-   do IBGE (população por UF) — para tornar respondíveis P6, P7 e P8. Justificativa completa
-   e caracterização das fontes em `docs/entregas/complemento_terceira_fonte_hiv.md`.
-2. **Decisão final de escopo do dashboard:** as perguntas de **adesão (P6 e P8) são
+1. **Ampliação de fontes** (2 → 4): inclusão de base de casos de HIV por população e
+   do IBGE (população por UF) — para tornar respondíveis P6, P7 e P8. Justificativa
+   completa e caracterização das fontes em `docs/entregas/complemento_terceira_fonte_hiv.md`.
+2. **Substituição da 3ª fonte (01/11/2026):** o TABNET de casos de **aids** deu lugar ao
+   **Boletim Epidemiológico HIV e Aids 2025** (casos de **HIV detectados** por categoria
+   de exposição e por UF + taxa de detecção por UF). Motivo: o objetivo da P7 é mostrar
+   **quem não está se prevenindo** (transmissão recente), e casos de aids medem outra
+   coisa — diagnóstico tardio/acesso a tratamento. Registrado como adendo no mesmo
+   documento; o CSV original de aids foi removido do repositório (recuperável pelo git).
+3. **Decisão final de escopo do dashboard:** as perguntas de **adesão (P6 e P8) são
    respondidas somente com a base PrEP** (novas abas "Adesao Populacao" e "Estados", com
    gráficos de entrada, permanência e saída por população e por UF). A população IBGE não
    entra no .pbix (fica no repositório como apoio, junto com a taxa PrEP/100 mil
-   pré-calculada). A base de aids entra em **uma única aba** ("Epidemia", P7).
-3. **Motivação das perguntas novas:** P6 e P7 só existem cruzando PrEP × casos por
+   pré-calculada). A base de HIV entra em **uma única aba** ("Epidemia", P7).
+4. **Motivação das perguntas novas:** P6 e P7 só existem cruzando PrEP × casos por
    população (inexistente nas fontes originais); P8 sem normalização favoreceria SP
    apenas por ser o estado mais populoso — por isso a análise de apoio por 100 mil
    habitantes acompanha o relatório (SP 279,8 e DF 245,6 por 100 mil lideram a PrEP;
-   o Norte tem a maior carga de aids por 100 mil — RR 41,3; AM 35,2 — sem cobertura
-   proporcional de PrEP; PB: PrEP 71,2 — 20º/27 — contra carga de aids 13,9 — 23º/27).
+   o Norte tem as maiores taxas de detecção de HIV do país — RR 37,5; AM 32,7; PA 24,2;
+   AP 22,7 por 100 mil em 2024 — sem cobertura proporcional de PrEP; PB: PrEP 71,2 —
+   20º/27 — contra detecção de HIV 12,4 — 27º/27).
 
 ---
 
@@ -112,7 +126,7 @@ integrante também registrada no mesmo documento.
 | Servicos | Total de Dispensas por tipo de serviço de atendimento | P5 |
 | **Adesao Populacao** | Usuários em PrEP por ano × população-chave; Taxa de Retenção % e Usuários Descontinuados por população | **P6** |
 | **Estados** | Usuários Únicos por UF; crescimento anual por UF (com segmentação de UF); Taxa de Retenção % por UF | **P8** |
-| **Epidemia** | Casos de aids por ano × categoria de exposição (3ª fonte; segmentação por categoria; sem relação com a estrela) | **P7** |
+| **Epidemia** | Casos de HIV detectados por ano × categoria de exposição (3ª fonte; segmentação por categoria; sem relação com a estrela) | **P7** |
 
 ---
 
@@ -138,8 +152,9 @@ cada população. (Painéis *Retencao* e *Adesao Populacao*.)
 **P4 — Como se distribui o acesso?** SP concentra o maior volume de dispensas (≈700 mil,
 seguida de RJ e MG) e também o maior número de usuários únicos (≈140 mil). O indicador
 de apoio por 100 mil habitantes (fora do .pbix) mostra SP (279,8), DF (245,6) e RJ
-(222,9) liderando a cobertura relativa — e o Norte com alta carga de aids e baixa
-cobertura de PrEP. (Painéis *Visao Geral* e *Estados* + apoio IBGE.)
+(222,9) liderando a cobertura relativa — e o Norte com as maiores taxas de detecção de
+HIV do país e baixa cobertura de PrEP. (Painéis *Visao Geral* e *Estados* + apoio
+IBGE/Boletim.)
 
 **P5 — Serviços e esquema?** O atendimento é predominantemente público e concentrado no
 Serviço de Atenção Especializada em IST/aids (serviço especializado), seguido pelo
@@ -151,56 +166,66 @@ HSH cis são a maioria absoluta das entradas em todos os anos e lideram a reten�
 Homens heterossexuais cis e mulheres cis aderem em volumes muito menores e com retenção
 inferior (≈42–47%). **Adesão é desproporcional à participação na epidemia** (ver P7).
 
-**P7 — Em quais populações ocorrem os novos casos de aids?** Entre casos com categoria de exposição
-conhecida, **heterossexuais são a maioria absoluta em todos os anos** (16.262 em 2024,
-≈44% dos 36.955 casos do ano), contra 8.170 homossexuais (≈22%) e 1.937 bissexuais
-(≈5%) — HSH somados ≈27%. A série é estável em ≈35–37 mil casos/ano (2018–2024), com
-queda em 2020 (29.980) compatível com subnotificação da pandemia; 2025 é parcial (até
-30/09). (Painel *Epidemia*; números exatos da base TABNET em `dados/hiv/`.)
+**P7 — Em quais populações ocorrem os novos casos de HIV detectados?** A detecção se
+mantém estável em ≈36–40 mil casos/ano (40.259 em 2018; 39.216 em 2024), com queda em
+2020 (32.949) compatível com subnotificação da pandemia; 2025 é parcial (até 30/09).
+Entre casos de 13+ anos com categoria conhecida em 2024 (28.176), **gays e outros HSH
+somam ≈49%** (homossexuais 40,8% + bissexuais 8,5%) e **heterossexuais ≈48%** (13.424
+casos, somando homens e mulheres) — praticamente metade da transmissão detectada em cada
+um dos dois públicos. (Painel *Epidemia*; Boletim Epidemiológico HIV e Aids 2025,
+Tabela 8, dados em `dados/hiv/`.)
 
 **P8 — Qual estado melhor aderiu?** Em volume absoluto, SP (≈140 mil usuários únicos),
 RJ e MG. Normalizando pela população (apoio IBGE), **SP (279,8/100 mil), DF (245,6) e
 RJ (222,9) lideram**; SC também se destaca (200,5). A Paraíba registra 71,2 usuários de
-PrEP por 100 mil (20º entre 27 UFs). O contraste mais importante: **os estados do Norte
-têm a maior carga de aids do país (RR 41,3; AM 35,2; AP 28,4 e PA 27,4 por 100 mil) e
-não figuram no topo da adesão à PrEP** — lacuna territorial clara de focalização da
-política pública.
+PrEP por 100 mil (20º entre 27 UFs). O contraste mais importante: **as maiores taxas de
+detecção de HIV do país estão no Norte (RR 37,5; AM 32,7; PA 24,2 e AP 22,7 por 100 mil
+em 2024 — 4 das 6 primeiras colocações) e esses estados não figuram no topo da adesão à
+PrEP** — lacuna territorial clara de focalização da política pública.
 
 ---
 
-## 6. O achado central: adesão × epidemia (P6 + P7 lidos juntos)
+## 6. O achado central: adesão × transmissão (P6 + P7 lidos juntos)
 
-- **Heterossexuais: ≈44% dos casos de aids (2024) × participação pequena na PrEP.**
-- **Gays e outros HSH: ≈27% dos casos de aids × maioria absoluta dos usuários de PrEP (~2/3).**
-- Leitura: a PrEP está bem **focalizada** no grupo de maior risco relativo (HSH), mas
-  **heterossexuais — que hoje lideram o volume absoluto de casos avançados — ainda não
-  são alcançados na mesma proporção**, seja por menor indicação/oferta, seja por menor
-  demanda/procura. Como os casos aqui contabilizados são de **aids** (doença avançada,
-  marcador de diagnóstico tardio), o dado sugere que a epidemia entre heterossexuais está
-  sendo diagnosticada tardiamente e sem prevenção biomedical associada.
-- Corolário territorial (P8): a mesma desigualdade aparece no mapa — Norte com maior
-  carga de aids e menor cobertura de PrEP.
+- **Gays e outros HSH: ≈49% dos casos novos de HIV (2024) × ~2/3 dos usuários de PrEP**
+  — super-representados na prevenção em relação ao peso na transmissão detectada:
+  focalização correta.
+- **Heterossexuais: ≈48% dos casos novos de HIV (13.424 em 2024) × participação muito
+  menor na PrEP (~1/3 dos usuários, somando homens heterossexuais cis e mulheres cis)**
+  — sub-alcançados pela prevenção.
+- Leitura: a PrEP chega mais ao grupo de maior risco relativo (HSH), mas heterossexuais
+  — hoje metade da transmissão detectada — ainda não são alcançados na mesma proporção,
+  seja por menor indicação/oferta, seja por menor demanda/procura. Como a base conta
+  **casos de HIV detectados (transmissão recente)** — e não casos de aids (que marcariam
+  diagnóstico tardio) —, o dado aponta diretamente o público em que a prevenção ainda
+  não chegou.
+- Corolário territorial (P8): a mesma desigualdade aparece no mapa — o Norte concentra
+  as maiores taxas de detecção de HIV do país (RR 37,5; AM 32,7; PA 24,2; AP 22,7 por
+  100 mil) sem cobertura proporcional de PrEP.
 
 ---
 
 ## 7. Limitações metodológicas (declaradas)
 
-1. **Casos de aids ≠ infecções por HIV.** A base aberta por categoria de exposição é a
-   de aids (doença manifesta — proxy oficial da epidemia usada no Boletim Epidemiológico);
-   estimativas de incidência de HIV só existem em PDF. O painel usa aids como proxy e o
-   diz explicitamente.
-2. **Categoria de exposição (SINAN) ≠ Pop_genero_pratica (base PrEP).** Os taxonomias
-   não são idênticas (HSH ≈ homossexual+bissexual; cis hetero ≈ heterossexual). A
-   comparação P6×P7 é por aproximação.
-3. **2025 da base de aids é parcial** (consolidado até 30/09/2025); tendências usam
-   2018–2024. O "Ignorado" de categoria (~75 mil casos na série) é mostrado, não distribuído.
+1. **Casos detectados ≠ incidência estimada.** A base conta casos de HIV
+   **detectados/diagnosticados** (Sinan + Siscel/Siclom) — o melhor proxy aberto de
+   transmissão recente; estimativas de incidência só existem no Boletim (PDF). O Boletim
+   nota ainda que os dados dos **últimos cinco anos são preliminares** (consolidação
+   futura tende a aumentá-los).
+2. **Categoria de exposição (Boletim/Sinan) ≠ Pop_genero_pratica (base PrEP).** Os
+   taxonomias não são idênticos (HSH ≈ homossexual+bissexual; cis hetero ≈ heterossexual).
+   A comparação P6×P7 é por aproximação.
+3. **O recorte por categoria cobre pessoas de 13+ anos** (Tabela 8 do Boletim); os totais
+   por UF incluem todas as idades. **2025 é parcial** (até 30/09). A categoria
+   "Ignorado" (~27% dos casos 13+ em 2024) é mostrada, não distribuída.
 4. **Contagens de usuários são semi-aditivas** (um usuário não soma entre anos); as
    medidas usam `DISTINCTCOUNT` por ano. Usuários Descontinuados por população soma
    registros usuário-ano em descontinuação ao longo da série (não pessoas únicas).
 5. **UF no painel = UF da unidade dispensadora** (a base 2025 não traz município/UF de
-   residência do usuário). Quem se deslocou conta em mais de uma UF.
-6. **FATO_CasosAidsAnual não tem relacionamento** com o modelo estrela: a leitura
-   PrEP×aids é lado a lado (mesmos eixos de ano/população), não um join — decisão
+   residência do usuário). Quem se deslocou conta em mais de uma UF. Na base de HIV, a UF
+   é a de residência (leva a um leve viés de comparação, declarado).
+6. **FATO_CasosHIVAnual não tem relacionamento** com o modelo estrela: a leitura
+   PrEP×HIV é lado a lado (mesmos eixos de ano/população), não um join — decisão
    documentada para evitar relação ambígua.
 
 ---
@@ -210,34 +235,37 @@ política pública.
 O projeto entregou um modelo dimensional Kimball completo (2 fatos, 4 dimensões +
 calendário), ETL reproduzível em Power Query, camada DAX com medidas justificadas e um
 dashboard de 7 páginas que responde às 8 perguntas de negócio — incluindo a análise
-epidemiológica que conecta adesão à PrEP e carga de aids por população. O achado central
-é acionável: **a focalização da PrEP em HSH está funcionando, mas há dois vales claros de
-cobertura — heterossexuais (maioria dos casos novos de aids) e a região Norte — que
-apontam as frentes prioritárias da política pública.**
+epidemiológica que conecta adesão à PrEP e transmissão recente por população. O achado
+central é acionável: **a focalização da PrEP em HSH está funcionando, mas há dois vales
+claros de cobertura — heterossexuais (≈48% dos casos novos de HIV) e a região Norte
+(maiores taxas de detecção do país) — que apontam as frentes prioritárias da política
+pública.**
 
 Como aprendizados de modelagem, a decisão de grão (1 dispensação; 1 usuário × ano)
 determinou toda a camada de medidas: contagens de usuários são **semi-aditivas** e exigem
 `DISTINCTCOUNT` por ano, jamais soma entre períodos; e a foto anual construída por
 *unpivot* no Power Query mostrou-se mais simples e auditável do que derivações
-equivalentes em DAX. A ampliação de escopo com a 3ª fonte (casos de aids por população)
-foi o que permitiu sair da descrição interna do programa e contrapor dois públicos
-distintos: quem está em prevenção e em quem ocorrem os casos novos de aids — os
-heterossexuais, maioria absoluta dos casos novos de aids, são justamente a população que
-a PrEP ainda não alcançou.
+equivalentes em DAX. A ampliação de escopo com a 3ª fonte (casos de HIV detectados por
+população) foi o que permitiu sair da descrição interna do programa e contrapor dois
+públicos distintos: quem está em prevenção e em quem ocorre a transmissão recente — os
+heterossexuais, metade dos casos novos de HIV, são justamente a população que a PrEP
+ainda não alcançou.
 
 Como trabalhos futuros: (i) incorporar a população IBGE ao modelo para normalizar a
 adesão por 100 mil habitantes dentro do próprio dashboard (hoje o indicador existe apenas
 como material de apoio); (ii) enriquecer a Dim_UDM com a hierarquia região → UF →
 município para *drill-down* territorial; (iii) investigar a categoria "Ignorado" da base
-de aids (~75 mil casos na série), cuja redistribuição pode reforçar ou atenuar as
+de HIV (~27% dos casos de 13+ em 2024), cuja redistribuição pode reforçar ou atenuar as
 leituras por população.
 
 ---
 
 ## 9. Estrutura do repositório (reprodutibilidade)
 
-- `dados/2025/` — bases oficiais PrEP (usuários e dispensas); `dados/hiv/` — TABNET aids
-  (categoria e UF), população IBGE e taxa PrEP/100 mil (apoio); script `scripts/gera_dados_hiv.py`.
+- `dados/2025/` — bases oficiais PrEP (usuários e dispensas); `dados/hiv/` — Boletim
+  Epidemiológico HIV e Aids 2025 (PDF) e CSVs transcritos (casos por categoria 13+, casos
+  por UF, taxa de detecção por UF), população IBGE e taxa PrEP/100 mil (apoio); script
+  `scripts/gera_dados_hiv.py`.
 - `powerbi/Projeto_BI_PREP.pbix` — modelo, ETL (Power Query M em `.zcode-gui/m/q*.txt`
   espelhado no repositório), medidas DAX e dashboard (7 páginas).
 - `docs/` — especificação resumida, modelo dimensional, dicionário de dados (Etapa 1),
@@ -252,14 +280,19 @@ leituras por população.
 - BRASIL. Ministério da Saúde. Departamento de DST, Aids e Hepatites Virais (Dathi).
   **Banco de usuários e dispensações de PrEP do SUS** (bases oficiais, versão 2025).
   Disponível em: http://www2.aids.gov.br/. Acesso em: out. 2026.
-- BRASIL. Ministério da Saúde. Dathi. **TABNET — Casos de aids identificados no Brasil**,
-  por categoria de exposição e por UF (SINAN, SIM, SISCEL/SICLOM), 2018–2025. Disponível
-  em: http://www2.aids.gov.br/cgi/tabcgi.exe?tabnet/br.def. Acesso em: 31 out. 2026.
+- BRASIL. Ministério da Saúde. Departamento de HIV, Aids, Tuberculose, Hepatites Virais
+  e Infecções Sexualmente Transmissíveis (Dathi). **Boletim Epidemiológico — HIV e Aids
+  2025** (Número Especial, dez. 2025): Tabela 1 (casos de HIV por UF), Tabela 2 (taxa de
+  detecção por UF) e Tabela 8 (casos por categoria de exposição, 13+ anos). Disponível
+  em: https://www.gov.br/aids/pt-br/central-de-conteudo/boletins-epidemiologicos/2025/
+  boletim_hiv_aids_2025.pdf. Acesso em: 1º nov. 2026.
 - IBGE. **Sistema SIDRA — Tabela 6579**: População estimada por Unidade da Federação,
   2024. Disponível em:
   https://apisidra.ibge.gov.br/values/t/6579/n3/all/v/9324/p/2024. Acesso em: 31 out. 2026.
-- BRASIL. Ministério da Saúde. **Boletim Epidemiológico de HIV/aids** — referência
-  metodológica para o uso de casos de aids como indicador por população de exposição.
+- BRASIL. Ministério da Saúde. Departamento de HIV, Aids, Tuberculose, Hepatites Virais
+  e Infecções Sexualmente Transmissíveis (Dathi). **Boletins Epidemiológicos HIV/aids** —
+  referência metodológica para uso de casos detectados como indicador por população de
+  exposição.
 - MICROSOFT. **Documentação do Power BI Desktop** — modelagem, linguagem M (Power Query)
   e DAX. Disponível em: https://learn.microsoft.com/power-bi/. Acesso em: out. 2026.
 - UFPB. **Banco de Dados II (2026.2) — Especificação do projeto de BI** (Profª. Renata
