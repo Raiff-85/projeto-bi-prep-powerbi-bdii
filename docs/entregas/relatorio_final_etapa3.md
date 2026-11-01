@@ -203,6 +203,17 @@ novos de HIV em 2024.
   **casos de HIV detectados (transmissão recente)** — e não casos de aids (que marcariam
   diagnóstico tardio) —, o dado aponta diretamente o público em que a prevenção ainda
   não chegou.
+- **Leitura por sexo (2024, casos 13+ com categoria conhecida: 28.176):** gays e outros
+  HSH — população exclusivamente masculina — somam **13.895 casos (49,3%)**, mais que o
+  dobro dos **6.325 homens heterossexuais (22,4%)**; completam o quadro as **7.099
+  mulheres heterossexuais (25,2%)** e as demais categorias (857; 3,0%). A comparação é
+  sempre por **categoria de exposição**, como o Boletim publica: homens heterossexuais e
+  mulheres heterossexuais são populações distintas, e os percentuais são distribuição de
+  casos, não risco individual (não há denominador de população por categoria).
+- **Por que quem mais usa PrEP também lidera as detecções?** Não há contradição: a PrEP
+  é indicada justamente para exposição elevada e cobre minoria da população HSH — o
+  grupo de maior risco segue concentrando a transmissão detectada, e a prevenção evita
+  infecções entre os usuários alcançados.
 - Corolário territorial (P8): a mesma desigualdade aparece no mapa — quatro das seis
   maiores taxas de detecção de HIV do país em 2024 são de estados do Norte (RR 37,5;
   AM 32,7; PA 24,2; AP 22,7 por 100 mil), sem cobertura proporcional de PrEP.
@@ -217,7 +228,11 @@ novos de HIV em 2024.
    nota ainda que os dados dos **últimos cinco anos são preliminares** (consolidação
    futura tende a aumentá-los). E taxa de detecção baixa não prova, sozinha, menos
    transmissão: pode refletir menos teste/busca ativa ou atraso de notificação — a
-   leitura territorial é sempre qualificada.
+   leitura territorial é sempre qualificada. O mesmo viés vale por população: homens
+   heterossexuais testam menos e tendem a chegar tarde ao diagnóstico, de modo que o
+   peso desse grupo nas detecções é um **piso** — a transmissão real nele pode ser maior
+   que a contada; o dado, porém, não permite inverter o ranking: mesmo com essa
+   subestimação, HSH seguem como o grupo líder em casos detectados.
 2. **Categoria de exposição (Boletim/Sinan) ≠ Pop_genero_pratica (base PrEP).** Os
    taxonomias não são idênticos (HSH ≈ homossexual+bissexual; cis hetero ≈ heterossexual).
    A comparação P6×P7 é por aproximação.
