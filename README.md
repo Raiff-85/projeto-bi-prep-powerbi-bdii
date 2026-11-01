@@ -25,7 +25,7 @@ detectados por população de exposição** (Boletim Epidemiológico HIV e Aids 
 
 ## Modelo (resumo)
 
-**2 fatas** — `FATO_DISPENSACOES` (transacional, grão: dispensa) e `FATO_STATUS_ANUAL`
+**2 fatos** — `FATO_DISPENSACOES` (transacional, grão: dispensa) e `FATO_STATUS_ANUAL`
 (foto periódica, grão: usuário × ano, via *unpivot* de `EmPrEP_2018…2025`) — e a fato
 `FATO_CasosHIVAnual` (categoria de exposição × sexo × ano, sem relacionamento, por
 decisão documentada), ligadas a dimensões de **Data, Usuário, Unidade Dispensadora e
@@ -48,7 +48,7 @@ reorganiza os dados em modelo estrela. Ver
 ## Status
 
 - [x] Bases oficiais tratadas (PrEP 2018–2025 + Boletim HIV/aids 2025)
-- [x] Modelo dimensional (2 fatas + dimensões; fato de HIV sem relacionamento, deliberado)
+- [x] Modelo dimensional (2 fatos + dimensões; fato de HIV sem relacionamento, deliberado)
 - [x] ETL em Power Query (M espelhado em `powerbi/etl_m/`)
 - [x] Medidas DAX (contagens semi-aditivas com `DISTINCTCOUNT`, `DIVIDE`)
 - [x] Dashboard de 7 páginas respondendo às 8 perguntas
