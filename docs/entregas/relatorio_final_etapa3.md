@@ -221,8 +221,9 @@ determinou toda a camada de medidas: contagens de usuários são **semi-aditivas
 *unpivot* no Power Query mostrou-se mais simples e auditável do que derivações
 equivalentes em DAX. A ampliação de escopo com a 3ª fonte (casos de aids por população)
 foi o que permitiu sair da descrição interna do programa e contrapor dois públicos
-distintos: quem está em prevenção e em quem ocorrem os casos novos de aids — os grupos
-com mais casos são justamente os que a PrEP ainda não alcançou.
+distintos: quem está em prevenção e em quem ocorrem os casos novos de aids — os
+heterossexuais, maioria absoluta dos casos novos de aids, são justamente a população que
+a PrEP ainda não alcançou.
 
 Como trabalhos futuros: (i) incorporar a população IBGE ao modelo para normalizar a
 adesão por 100 mil habitantes dentro do próprio dashboard (hoje o indicador existe apenas
