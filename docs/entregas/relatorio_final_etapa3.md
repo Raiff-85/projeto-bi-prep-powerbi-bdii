@@ -129,7 +129,7 @@ pessoas trans/travestis. A faixa etária concentra-se em 20–39 anos. (Painel *
 
 **P3 — Quem retém e quem abandona?** A Taxa de Retenção anual (usuários que seguem
 "Em PrEP" no fechamento do ano seguinte à entrada) cresce de ≈3% (2018) para ≈44% (2025)
-— reflexo tanto da maturação do programa quanto do increase da base. Entre populações,
+— reflexo tanto da maturação do programa quanto do aumento da base. Entre populações,
 a retenção varia de ≈42% (mulheres cis) a ≈55% (Outros), com gays/HSH ≈52% e pessoas
 trans ≈50%. Em volume absoluto de descontinuações, gays/HSH lideram (são também a
 maioria da base); em termos relativos, as descontinuações acompanham a participação de
@@ -151,7 +151,7 @@ HSH cis são a maioria absoluta das entradas em todos os anos e lideram a reten�
 Homens heterossexuais cis e mulheres cis aderem em volumes muito menores e com retenção
 inferior (≈42–47%). **Adesão é desproporcional à participação na epidemia** (ver P7).
 
-**P7 — Onde ocorrem os novos casos de aids?** Entre casos com categoria de exposição
+**P7 — Em quais populações ocorrem os novos casos de aids?** Entre casos com categoria de exposição
 conhecida, **heterossexuais são a maioria absoluta em todos os anos** (16.262 em 2024,
 ≈44% dos 36.955 casos do ano), contra 8.170 homossexuais (≈22%) e 1.937 bissexuais
 (≈5%) — HSH somados ≈27%. A série é estável em ≈35–37 mil casos/ano (2018–2024), com
@@ -205,19 +205,56 @@ política pública.
 
 ---
 
-## 8. Conclusões
+## 8. Considerações finais
 
 O projeto entregou um modelo dimensional Kimball completo (2 fatos, 4 dimensões +
 calendário), ETL reproduzível em Power Query, camada DAX com medidas justificadas e um
 dashboard de 7 páginas que responde às 8 perguntas de negócio — incluindo a análise
 epidemiológica que conecta adesão à PrEP e carga de aids por população. O achado central
 é acionável: **a focalização da PrEP em HSH está funcionando, mas há dois vales claros de
-cobertura — heterossexuais (maioria dos casos novos) e a região Norte — que indicam para
-onde a política pública deve avançar.**
+cobertura — heterossexuais (maioria dos casos novos) e a região Norte — que apontam as
+frentes prioritárias da política pública.**
+
+Como aprendizados de modelagem, a decisão de grão (1 dispensação; 1 usuário × ano)
+determinou toda a camada de medidas: contagens de usuários são **semi-aditivas** e exigem
+`DISTINCTCOUNT` por ano, jamais soma entre períodos; e a foto anual construída por
+*unpivot* no Power Query mostrou-se mais simples e auditável do que derivações
+equivalentes em DAX. A ampliação de escopo com a 3ª fonte (casos de aids por população)
+foi o que permitiu sair da descrição interna do programa e responder à pergunta que dá
+sentido analítico ao trabalho: se a prevenção está alcançando quem adoece.
+
+Como trabalhos futuros: (i) incorporar a população IBGE ao modelo para normalizar a
+adesão por 100 mil habitantes dentro do próprio dashboard (hoje o indicador existe apenas
+como material de apoio); (ii) enriquecer a Dim_UDM com a hierarquia região → UF →
+município para *drill-down* territorial; (iii) investigar a categoria "Ignorado" da base
+de aids (~75 mil casos na série), cuja redistribuição pode reforçar ou atenuar as
+leituras por população.
 
 ---
 
-## 9. Estrutura do repositório (reprodutibilidade)
+## 9. Referências
+
+- KIMBALL, Ralph; ROSS, Margy. *The Data Warehouse Toolkit: The Definitive Guide to
+  Dimensional Modeling*. 3. ed. Indianapolis: John Wiley & Sons, 2013.
+- BRASIL. Ministério da Saúde. Departamento de DST, Aids e Hepatites Virais (Dathi).
+  **Banco de usuários e dispensações de PrEP do SUS** (bases oficiais, versão 2025).
+  Disponível em: http://www2.aids.gov.br/. Acesso em: out. 2026.
+- BRASIL. Ministério da Saúde. Dathi. **TABNET — Casos de aids identificados no Brasil**,
+  por categoria de exposição e por UF (SINAN, SIM, SISCEL/SICLOM), 2018–2025. Disponível
+  em: http://www2.aids.gov.br/cgi/tabcgi.exe?tabnet/br.def. Acesso em: 31 out. 2026.
+- IBGE. **Sistema SIDRA — Tabela 6579**: População estimada por Unidade da Federação,
+  2024. Disponível em:
+  https://apisidra.ibge.gov.br/values/t/6579/n3/all/v/9324/p/2024. Acesso em: 31 out. 2026.
+- BRASIL. Ministério da Saúde. **Boletim Epidemiológico de HIV/aids** — referência
+  metodológica para o uso de casos de aids como indicador por população de exposição.
+- MICROSOFT. **Documentação do Power BI Desktop** — modelagem, linguagem M (Power Query)
+  e DAX. Disponível em: https://learn.microsoft.com/power-bi/. Acesso em: out. 2026.
+- UFPB. **Banco de Dados II (2026.2) — Especificação do projeto de BI** (Profª. Renata
+  Viegas). Material da disciplina.
+
+---
+
+## 10. Estrutura do repositório (reprodutibilidade)
 
 - `dados/2025/` — bases oficiais PrEP (usuários e dispensas); `dados/hiv/` — TABNET aids
   (categoria e UF), população IBGE e taxa PrEP/100 mil (apoio); script `scripts/gera_dados_hiv.py`.
