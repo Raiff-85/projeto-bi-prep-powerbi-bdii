@@ -171,7 +171,7 @@ política pública.
 ## 6. O achado central: adesão × epidemia (P6 + P7 lidos juntos)
 
 - **Heterossexuais: ≈44% dos casos de aids (2024) × participação pequena na PrEP.**
-- **Gays e outros HSH: ≈27% dos casos × maioria absoluta dos usuários de PrEP (~2/3).**
+- **Gays e outros HSH: ≈27% dos casos de aids × maioria absoluta dos usuários de PrEP (~2/3).**
 - Leitura: a PrEP está bem **focalizada** no grupo de maior risco relativo (HSH), mas
   **heterossexuais — que hoje lideram o volume absoluto de casos avançados — ainda não
   são alcançados na mesma proporção**, seja por menor indicação/oferta, seja por menor
