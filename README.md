@@ -51,5 +51,4 @@ reorganiza os dados em modelo estrela.
 - [x] ETL em Power Query (M espelhado em `powerbi/etl_m/`)
 - [x] Medidas DAX (contagens semi-aditivas com `DISTINCTCOUNT`, `DIVIDE`)
 - [x] Dashboard de 7 páginas respondendo às 8 perguntas
-- [x] Relatório final, roteiro de apresentação e documentação das etapas
-- [ ] Apresentação dos resultados (07–11/12)
+- [x] Relatório final.
